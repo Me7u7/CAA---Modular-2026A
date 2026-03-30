@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAA</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="design.css">
+</head>
+
+<body>
+
+<h2>CAA abierta</h2>
+
+<div class="container">
+
+    <nav> 
+        <div id="sentence">AQUÍ SE MUESTRA LA ORACIÓN</div>
+
+        <div class="controls">
+            <button onclick="speak()">🔊 Reproducir</button>
+            <button onclick="deleteLast()">⌫ Borrar</button>
+            <button onclick="clearAll()">🗑 Limpiar</button>
+        </div>
+    </nav>
+
+    <!-- TARJETAS -->
+    <div class="card" data-word="yo">
+        <img src="me.png">
+        <span>Yo</span>
+    </div>
+
+    <div class="card" data-word="hambre">
+        <img src="hambre.png">
+        <span>Hambre</span>
+    </div>
+
+    <div class="card" data-word="sed">
+        <img src="sed.png">
+        <span>Sed</span>
+    </div>
+
+    <div class="card" data-word="sueño">
+        <img src="sueno.png">
+        <span>Sueño</span>
+    </div>
+
+    <div class="card" data-word="dolor">
+        <img src="pain.png">
+        <span>Dolor</span>
+    </div>
+
+    <div class="card" data-word="miedo">
+        <img src="scared.png">
+        <span>Miedo</span>
+    </div>
+
+    <div class="card" data-word="sí">
+        <img src="yes.png">
+        <span>Sí</span>
+    </div>
+
+    <div class="card" data-word="no">
+        <img src="no.png">
+        <span>No</span>
+    </div>
+
+<footer>
+    <h3>El propósito de esta plataforma es brindar una herramienta de comunicación gratuita</h3>
+
+    <button id="adminBtn">⚙️</button>
+
+    <div id="adminPanel" class="hidden">
+        <input type="password" id="password" placeholder="Contraseña">
+        <button onclick="checkPassword()">Entrar</button>
+
+        <div id="dataTable"></div>
+    </div>
+</footer>
+
+</div>
+
+<script src="web.js"></script>
+
+</body>
+</html>
