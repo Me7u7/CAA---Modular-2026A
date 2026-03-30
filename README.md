@@ -1,8 +1,8 @@
 Descripción:Prototipo funcional de una plataforma de CAA dirigida a niños con autismo no verbal, que permite la comunicación mediante pictogramas en una interfaz accesible.
 
 Acceso a datos:
-1 - Da clic en el ícono de engranaje
-2 - Ingresa la contraseña: 1234
+- Da clic en el ícono de engranaje (se encuentra a la mitad a la derecha)
+- Ingresa la contraseña: 1234
 Sobre el almacenamiento: Los datos se guardan localmente en el navegador (LocalStorage), registrando conteo de pictogramas y horario en el que se usó.
 
 Características:
