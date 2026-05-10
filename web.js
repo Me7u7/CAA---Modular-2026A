@@ -1,3 +1,12 @@
+const SUPABASE_URL = "https://gsyzcovbrdceklzaijrt.supabase.co";
+
+const SUPABASE_KEY = "TU_PUBLISHABLE_KEY";
+
+const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
 console.log("JS conectado");
 
 let sentence = [];
@@ -14,18 +23,32 @@ cards.forEach(card => {
 
     if(!counts[word]) counts[word] = 0;
 
-    card.addEventListener("click", () => {
-        addWord(word);
+    card.addEventListener("click", async () => {
 
-        /* CONTADOR */
-        counts[word]++;
-        localStorage.setItem("counts", JSON.stringify(counts));
+    addWord(word);
 
-        /* LOG CON HORA */
-        const time = new Date().toLocaleTimeString();
-        logs.push({word, time});
-        localStorage.setItem("logs", JSON.stringify(logs));
-    });
+    /* CONTADOR */
+    counts[word]++;
+    localStorage.setItem("counts", JSON.stringify(counts));
+
+    /* LOG CON HORA */
+    const time = new Date().toLocaleTimeString();
+
+    logs.push({ word, time });
+
+    localStorage.setItem("logs", JSON.stringify(logs));
+
+    /* SUPABASE */
+    const { error } = await supabaseClient
+        .from('card_logs')
+        .insert([
+            { word, time }
+        ]);
+
+    if(error){
+        console.error(error);
+    }
+
 });
 
 /* FRASE */
@@ -75,7 +98,7 @@ adminBtn.addEventListener("click", () => {
 function checkPassword(){
     const pass = document.getElementById("password").value;
 
-    if(pass === "1234"){  // 🔐 puedes cambiarla
+    if(pass === "1234"){ 
         showTable();
     } else {
         alert("Contraseña incorrecta");
