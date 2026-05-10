@@ -1,10 +1,17 @@
+const SUPABASE_URL =
+"https://gsyzcovbrdceklzaijrt.supabase.co";
+
+const SUPABASE_KEY = "sb_publishable_29QILtAK6ztpr7FCSIcOIQ_zobUeRWR";
+
+const supabaseClient =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
 console.log("LOGIN conectado");
 
-/* USUARIOS */
-let users =
-    JSON.parse(
-        localStorage.getItem("users")
-    ) || [];
+let users = [];
 
 /* CONTENEDOR */
 const usersGrid =
