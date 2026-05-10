@@ -22,17 +22,14 @@ cards.forEach(card => {
 
     const word = card.dataset.word;
 
-    /* INICIALIZAR CONTADOR */
     if(!counts[word]){
         counts[word] = 0;
     }
 
     card.addEventListener("click", async () => {
 
-        /* AGREGAR PALABRA */
         addWord(word);
 
-        /* CONTADOR */
         counts[word]++;
 
         localStorage.setItem(
@@ -40,21 +37,27 @@ cards.forEach(card => {
             JSON.stringify(counts)
         );
 
-        /* HORA */
         const time = new Date().toLocaleTimeString();
 
-        logs.push({ word, time });
+        logs.push({
+            word,
+            time,
+            phrase: sentence.join(" ")
+        });
 
         localStorage.setItem(
             "logs",
             JSON.stringify(logs)
         );
 
-        /* SUPABASE */
         const { error } = await supabaseClient
             .from('card_logs')
             .insert([
-                { word }
+                {
+                    word,
+                    phrase: sentence.join(" "),
+                    count: counts[word]
+                }
             ]);
 
         if(error){
@@ -157,7 +160,6 @@ function showTable(){
 
     let html = "";
 
-    /* TABLA CONTADORES */
     html += "<table>";
 
     html += `
@@ -179,13 +181,13 @@ function showTable(){
 
     html += "</table><br>";
 
-    /* TABLA HISTORIAL */
     html += "<table>";
 
     html += `
         <tr>
             <th>Palabra</th>
             <th>Hora</th>
+            <th>Frase</th>
         </tr>
     `;
 
@@ -195,6 +197,7 @@ function showTable(){
             <tr>
                 <td>${log.word}</td>
                 <td>${log.time}</td>
+                <td>${log.phrase}</td>
             </tr>
         `;
     });

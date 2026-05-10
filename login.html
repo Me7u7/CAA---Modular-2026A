@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Usuarios | CAA</title>
+
+    <link rel="stylesheet" href="login.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&family=Sour+Gummy:wght@300..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="background"></div>
+
+    <main class="login-container">
+
+        <div class="top-section">
+            <h1>CAA abierta</h1>
+            <p>Selecciona un perfil</p>
+        </div>
+
+        <div class="users-grid" id="usersGrid">
+
+            <!-- Usuarios generados desde JS -->
+
+        </div>
+
+        <div class="bottom-section">
+
+            <button class="new-user-btn" onclick="openModal()">
+                ＋ Nuevo usuario
+            </button>
+
+        </div>
+
+    </main>
+
+    <!-- MODAL -->
+    <div class="modal hidden" id="modal">
+
+        <div class="modal-content">
+
+            <h2>Nuevo usuario</h2>
+
+            <input
+                type="text"
+                id="username"
+                placeholder="Nombre del paciente"
+            >
+
+            <input
+                type="password"
+                id="pin"
+                placeholder="PIN de 4 dígitos"
+                maxlength="4"
+            >
+
+            <div class="modal-buttons">
+
+                <button onclick="createUser()">
+                    Guardar
+                </button>
+
+                <button onclick="closeModal()">
+                    Cancelar
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="login.js"></script>
+
+</body>
+</html>
