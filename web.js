@@ -19,110 +19,184 @@ let logs = JSON.parse(localStorage.getItem("logs")) || [];
 const cards = document.querySelectorAll(".card");
 
 cards.forEach(card => {
+
     const word = card.dataset.word;
 
-    if(!counts[word]) counts[word] = 0;
+    /* INICIALIZAR CONTADOR */
+    if(!counts[word]){
+        counts[word] = 0;
+    }
 
     card.addEventListener("click", async () => {
 
-    addWord(word);
+        /* AGREGAR PALABRA */
+        addWord(word);
 
-    /* CONTADOR */
-    counts[word]++;
-    localStorage.setItem("counts", JSON.stringify(counts));
+        /* CONTADOR */
+        counts[word]++;
 
-    /* LOG CON HORA */
-    const time = new Date().toLocaleTimeString();
+        localStorage.setItem(
+            "counts",
+            JSON.stringify(counts)
+        );
 
-    logs.push({ word, time });
+        /* HORA */
+        const time = new Date().toLocaleTimeString();
 
-    localStorage.setItem("logs", JSON.stringify(logs));
+        logs.push({ word, time });
 
-    /* SUPABASE */
-    const { error } = await supabaseClient
-        .from('card_logs')
-        .insert([
-            { word, time }
-        ]);
+        localStorage.setItem(
+            "logs",
+            JSON.stringify(logs)
+        );
 
-    if(error){
-        console.error(error);
-    }
+        /* SUPABASE */
+        const { error } = await supabaseClient
+            .from('card_logs')
+            .insert([
+                { word }
+            ]);
+
+        if(error){
+            console.error("ERROR SUPABASE:", error);
+        } else {
+            console.log("Dato guardado");
+        }
+
+    });
 
 });
 
 /* FRASE */
 function addWord(word){
+
     sentence.push(word);
+
     updateSentence();
 }
 
+/* ACTUALIZAR TEXTO */
 function updateSentence(){
-    const sentenceDiv = document.getElementById("sentence");
-    sentenceDiv.textContent = sentence.length 
-        ? sentence.join(" ") 
-        : "Aquí se muestra la oración";
+
+    const sentenceDiv =
+        document.getElementById("sentence");
+
+    sentenceDiv.textContent = sentence.length
+        ? sentence.join(" ")
+        : "AQUÍ SE MUESTRA LA ORACIÓN";
 }
 
 /* AUDIO */
 function speak(){
+
     if(sentence.length === 0) return;
 
-    const utterance = new SpeechSynthesisUtterance(sentence.join(" "));
+    const utterance =
+        new SpeechSynthesisUtterance(
+            sentence.join(" ")
+        );
+
     utterance.lang = "es-MX";
     utterance.pitch = 1.2;
+    utterance.rate = 1;
 
     speechSynthesis.speak(utterance);
 }
 
-/* BORRAR */
+/* BORRAR ÚLTIMA */
 function deleteLast(){
+
     sentence.pop();
+
     updateSentence();
 }
 
+/* LIMPIAR */
 function clearAll(){
+
     sentence = [];
+
     updateSentence();
 }
 
 /* PANEL ADMIN */
-const adminBtn = document.getElementById("adminBtn");
-const panel = document.getElementById("adminPanel");
+const adminBtn =
+    document.getElementById("adminBtn");
+
+const panel =
+    document.getElementById("adminPanel");
 
 adminBtn.addEventListener("click", () => {
+
     panel.classList.toggle("hidden");
+
 });
 
 /* CONTRASEÑA */
 function checkPassword(){
-    const pass = document.getElementById("password").value;
 
-    if(pass === "1234"){ 
+    const pass =
+        document.getElementById("password").value;
+
+    if(pass === "1234"){
+
         showTable();
+
     } else {
+
         alert("Contraseña incorrecta");
+
     }
 }
 
 /* TABLA */
 function showTable(){
-    const tableDiv = document.getElementById("dataTable");
 
-    let html = "<table>";
-    html += "<tr><th>Palabra</th><th>Conteo</th></tr>";
+    const tableDiv =
+        document.getElementById("dataTable");
+
+    let html = "";
+
+    /* TABLA CONTADORES */
+    html += "<table>";
+
+    html += `
+        <tr>
+            <th>Palabra</th>
+            <th>Conteo</th>
+        </tr>
+    `;
 
     for(let word in counts){
-        html += `<tr><td>${word}</td><td>${counts[word]}</td></tr>`;
+
+        html += `
+            <tr>
+                <td>${word}</td>
+                <td>${counts[word]}</td>
+            </tr>
+        `;
     }
 
     html += "</table><br>";
 
+    /* TABLA HISTORIAL */
     html += "<table>";
-    html += "<tr><th>Palabra</th><th>Hora</th></tr>";
+
+    html += `
+        <tr>
+            <th>Palabra</th>
+            <th>Hora</th>
+        </tr>
+    `;
 
     logs.forEach(log => {
-        html += `<tr><td>${log.word}</td><td>${log.time}</td></tr>`;
+
+        html += `
+            <tr>
+                <td>${log.word}</td>
+                <td>${log.time}</td>
+            </tr>
+        `;
     });
 
     html += "</table>";
