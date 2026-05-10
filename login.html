@@ -2,45 +2,70 @@
 <html lang="es">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Usuarios | CAA</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="login.css">
+    <title>Login | CAA</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&family=Sour+Gummy:wght@300..900&display=swap" rel="stylesheet">
+    <link
+        rel="stylesheet"
+        href="login.css"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Sour+Gummy:wght@300..900&display=swap"
+        rel="stylesheet"
+    >
+
 </head>
 
 <body>
 
-    <div class="background"></div>
-
     <main class="login-container">
 
-        <div class="top-section">
-            <h1>CAA abierta</h1>
-            <p>Selecciona un perfil</p>
-        </div>
+        <h1>CAA abierta</h1>
 
-        <div class="users-grid" id="usersGrid">
+        <p>
+            Ingresa tu usuario
+        </p>
 
-            <!-- Usuarios generados desde JS -->
+        <input
+            type="text"
+            id="username"
+            placeholder="Usuario"
+        >
 
-        </div>
+        <input
+            type="password"
+            id="pin"
+            placeholder="PIN"
+            maxlength="4"
+        >
 
-        <div class="bottom-section">
+        <button onclick="login()">
+            Entrar
+        </button>
 
-            <button class="new-user-btn" onclick="openModal()">
-                ＋ Nuevo usuario
-            </button>
-
-        </div>
+        <button
+            class="secondary-btn"
+            onclick="openModal()"
+        >
+            Crear usuario
+        </button>
 
     </main>
 
     <!-- MODAL -->
-    <div class="modal hidden" id="modal">
+
+    <div
+        class="modal hidden"
+        id="modal"
+    >
 
         <div class="modal-content">
 
@@ -48,35 +73,32 @@
 
             <input
                 type="text"
-                id="username"
-                placeholder="Nombre del paciente"
+                id="newUsername"
+                placeholder="Usuario"
             >
 
             <input
                 type="password"
-                id="pin"
-                placeholder="PIN de 4 dígitos"
+                id="newPin"
+                placeholder="PIN"
                 maxlength="4"
             >
 
-            <div class="modal-buttons">
+            <button onclick="createUser()">
+                Guardar
+            </button>
 
-                <button onclick="createUser()">
-                    Guardar
-                </button>
-
-                <button onclick="closeModal()">
-                    Cancelar
-                </button>
-
-            </div>
+            <button onclick="closeModal()">
+                Cancelar
+            </button>
 
         </div>
 
     </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-<script src="login.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+    <script src="login.js"></script>
 
 </body>
 </html>

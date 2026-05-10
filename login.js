@@ -1,7 +1,8 @@
 const SUPABASE_URL =
 "https://gsyzcovbrdceklzaijrt.supabase.co";
 
-const SUPABASE_KEY = "sb_publishable_29QILtAK6ztpr7FCSIcOIQ_zobUeRWR";
+const SUPABASE_KEY =
+"sb_publishable_29QILtAK6ztpr7FCSIcOIQ_zobUeRWR";
 
 const supabaseClient =
     supabase.createClient(
@@ -11,11 +12,32 @@ const supabaseClient =
 
 console.log("LOGIN conectado");
 
+/* USUARIOS */
 let users = [];
 
 /* CONTENEDOR */
 const usersGrid =
     document.getElementById("usersGrid");
+
+/* CARGAR USUARIOS */
+async function loadUsers(){
+
+    const { data, error } =
+        await supabaseClient
+        .from("users")
+        .select("*");
+
+    if(error){
+
+        console.error(error);
+
+        return;
+    }
+
+    users = data;
+
+    renderUsers();
+}
 
 /* MOSTRAR USUARIOS */
 function renderUsers(){
@@ -62,7 +84,7 @@ function closeModal(){
 }
 
 /* CREAR USUARIO */
-function createUser(){
+async function createUser(){
 
     const username =
         document
@@ -83,23 +105,27 @@ function createUser(){
         return;
     }
 
-    const newUser = {
+    const { data, error } =
+        await supabaseClient
+        .from("users")
+        .insert([
+            {
+                name: username,
+                pin: pin
+            }
+        ])
+        .select();
 
-        id: crypto.randomUUID(),
+    if(error){
 
-        name: username,
+        console.error(error);
 
-        pin: pin
-    };
+        alert("Error al crear usuario");
 
-    users.push(newUser);
+        return;
+    }
 
-    localStorage.setItem(
-        "users",
-        JSON.stringify(users)
-    );
-
-    renderUsers();
+    loadUsers();
 
     closeModal();
 
@@ -120,7 +146,7 @@ function selectUser(userId){
 
     const user =
         users.find(
-            u => u.id === userId
+            u => u.id == userId
         );
 
     if(!user) return;
@@ -142,4 +168,4 @@ function selectUser(userId){
 }
 
 /* INICIO */
-renderUsers();
+loadUsers();
