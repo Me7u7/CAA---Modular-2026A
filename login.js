@@ -1,8 +1,7 @@
 const SUPABASE_URL =
 "https://gsyzcovbrdceklzaijrt.supabase.co";
 
-const SUPABASE_KEY =
-"sb_publishable_29QILtAK6ztpr7FCSIcOIQ_zobUeRWR";
+const SUPABASE_KEY = "sb_publishable_29QILtAK6ztpr7FCSIcOIQ_zobUeRWR";
 
 const supabaseClient =
     supabase.createClient(
@@ -12,79 +11,8 @@ const supabaseClient =
 
 console.log("LOGIN conectado");
 
-/* USUARIOS */
-let users = [];
-
-/* CONTENEDOR */
-const usersGrid =
-    document.getElementById("usersGrid");
-
-/* CARGAR USUARIOS */
-async function loadUsers(){
-
-    const { data, error } =
-        await supabaseClient
-        .from("users")
-        .select("*");
-
-    if(error){
-
-        console.error(error);
-
-        return;
-    }
-
-    users = data;
-
-    renderUsers();
-}
-
-/* MOSTRAR USUARIOS */
-function renderUsers(){
-
-    usersGrid.innerHTML = "";
-
-    users.forEach(user => {
-
-        usersGrid.innerHTML += `
-
-            <div
-                class="user-card"
-                onclick="selectUser('${user.id}')"
-            >
-
-                <div class="avatar">
-                    👤
-                </div>
-
-                <div class="user-name">
-                    ${user.name}
-                </div>
-
-            </div>
-
-        `;
-    });
-
-}
-
-/* MODAL */
-function openModal(){
-
-    document
-        .getElementById("modal")
-        .classList.remove("hidden");
-}
-
-function closeModal(){
-
-    document
-        .getElementById("modal")
-        .classList.add("hidden");
-}
-
-/* CREAR USUARIO */
-async function createUser(){
+/* LOGIN */
+async function login(){
 
     const username =
         document
@@ -98,7 +26,7 @@ async function createUser(){
         .value
         .trim();
 
-    if(username === "" || pin.length < 4){
+    if(username === "" || pin === ""){
 
         alert("Completa los datos");
 
@@ -108,13 +36,74 @@ async function createUser(){
     const { data, error } =
         await supabaseClient
         .from("users")
+        .select("*")
+        .eq("name", username)
+        .eq("pin", pin)
+        .single();
+
+    if(error || !data){
+
+        alert("Usuario o PIN incorrecto");
+
+        return;
+    }
+
+    localStorage.setItem(
+        "currentUser",
+        JSON.stringify(data)
+    );
+
+    window.location.href =
+        "index.html";
+}
+
+/* ABRIR MODAL */
+function openModal(){
+
+    document
+        .getElementById("modal")
+        .classList.remove("hidden");
+}
+
+/* CERRAR MODAL */
+function closeModal(){
+
+    document
+        .getElementById("modal")
+        .classList.add("hidden");
+}
+
+/* CREAR USUARIO */
+async function createUser(){
+
+    const username =
+        document
+        .getElementById("newUsername")
+        .value
+        .trim();
+
+    const pin =
+        document
+        .getElementById("newPin")
+        .value
+        .trim();
+
+    if(username === "" || pin.length < 4){
+
+        alert("Datos incompletos");
+
+        return;
+    }
+
+    const { error } =
+        await supabaseClient
+        .from("users")
         .insert([
             {
                 name: username,
                 pin: pin
             }
-        ])
-        .select();
+        ]);
 
     if(error){
 
@@ -125,47 +114,15 @@ async function createUser(){
         return;
     }
 
-    loadUsers();
+    alert("Usuario creado");
 
     closeModal();
 
     document
-        .getElementById("username")
+        .getElementById("newUsername")
         .value = "";
 
     document
-        .getElementById("pin")
+        .getElementById("newPin")
         .value = "";
 }
-
-/* SELECCIONAR USUARIO */
-function selectUser(userId){
-
-    const pin =
-        prompt("Ingresa PIN");
-
-    const user =
-        users.find(
-            u => u.id == userId
-        );
-
-    if(!user) return;
-
-    if(pin === user.pin){
-
-        localStorage.setItem(
-            "currentUser",
-            JSON.stringify(user)
-        );
-
-        window.location.href =
-            "index.html";
-
-    } else {
-
-        alert("PIN incorrecto");
-    }
-}
-
-/* INICIO */
-loadUsers();
