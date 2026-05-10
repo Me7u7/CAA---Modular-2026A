@@ -1,6 +1,6 @@
 const SUPABASE_URL = "https://gsyzcovbrdceklzaijrt.supabase.co";
 
-const SUPABASE_KEY = "TU_PUBLIC_ANON_KEY";
+const SUPABASE_KEY = "sb_publishable_29QILtAK6ztpr7FCSIcOIQ_zobUeRWR";
 
 const supabaseClient = supabase.createClient(
     SUPABASE_URL,
@@ -37,7 +37,7 @@ const cards = [
     { id: "no", word: "no" }
 ];
 
-function updateSentence(){
+function updateSentence() {
 
     if(sentence.length === 0){
         sentenceBox.innerText = "Aquí se muestra la oración";
