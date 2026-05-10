@@ -1,4 +1,4 @@
-Descripción:Prototipo funcional de una plataforma de CAA dirigida a niños con autismo no verbal, que permite la comunicación mediante pictogramas en una interfaz accesible.
+Descripción:Prototipo funcional de una plataforma de CAA dirigida a niños no verbales, que permite la comunicación mediante pictogramas en una interfaz accesible.
 
 Acceso a datos:
 - Da clic en el ícono de engranaje (se encuentra a la mitad a la derecha)
